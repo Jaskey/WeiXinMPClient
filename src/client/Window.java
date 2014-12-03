@@ -24,12 +24,14 @@ public class Window {
 	private JTextField fieldCreateTime;
 	private JTextField fieldMsgType;
 	private JTextField fieldMsgId;
-	private JTextField Fieldhost;
+	private JTextField textHost;
 	private JTextField fieldContent;
 
 	private String xmlStr="";
 	private JTextArea chatBox;
 	
+	private static final String LOCAL_HOST="http://localhost:8080/wodinow/wodi";
+	private static final String PRO_HOST="http://wodinow.duapp.com/wodi";
 	/**
 	 * Launch the application.
 	 */
@@ -134,12 +136,20 @@ public class Window {
 				 msg.setCreateTime(Long.parseLong(fieldCreateTime.getText()));
 				 msg.setMsgId(Long.parseLong(fieldMsgId.getText()));
 				 msg.setMsgType(fieldMsgType.getText());
-				 msg.setContent(fieldContent.getText());
+				 
+				 String content=fieldContent.getText();
+				 /*try {
+					content = URLEncoder.encode(content, "utf-8");
+				} catch (UnsupportedEncodingException e2) {
+					JOptionPane.showMessageDialog(null, e2.getMessage());
+				} */
+				 msg.setContent(content);		 
+				 
 				 xmlStr= XMLRequest.textMessageToXml(msg);
-				 System.out.println(xmlStr);
+				 System.out.println("-----------request-------\n"+xmlStr);
 				 
 				 
-				 String host=Fieldhost.getText();
+				 String host=textHost.getText();
 				 try {
 
 					 chatBox.append("---------------------\n");
@@ -156,11 +166,11 @@ public class Window {
 		});
 		frame.getContentPane().add(buttomSend);
 		
-		Fieldhost = new JTextField();
-		Fieldhost.setBounds(434, 41, 183, 21);
-		Fieldhost.setText("http://wodinow.duapp.com/wodi");   //http://wodinow.duapp.com/wodi ,//http://localhost:8080/wodinow/wodi
-		frame.getContentPane().add(Fieldhost);
-		Fieldhost.setColumns(10);
+		textHost = new JTextField();
+		textHost.setBounds(434, 41, 183, 21);
+		textHost.setText("http://wodinow.duapp.com/wodi");   //http://wodinow.duapp.com/wodi ,//http://localhost:8080/wodinow/wodi
+		frame.getContentPane().add(textHost);
+		textHost.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("host");
 		lblNewLabel_5.setBounds(434, 13, 54, 15);
@@ -191,5 +201,20 @@ public class Window {
 		});
 		clearButton.setBounds(388, 373, 93, 23);
 		frame.getContentPane().add(clearButton);
+		
+		JButton btnSwichHost = new JButton("swich host");
+		btnSwichHost.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textHost.getText().equals(LOCAL_HOST)){
+					textHost.setText(PRO_HOST);
+				}
+				
+				else if(textHost.getText().equals(PRO_HOST)){
+						textHost.setText(LOCAL_HOST);
+				}
+			}
+		});
+		btnSwichHost.setBounds(524, 71, 93, 23);
+		frame.getContentPane().add(btnSwichHost);
 	}
 }
