@@ -94,9 +94,8 @@ public class XMLRequest {
 	   
 		public  static String  parseXmlContent(InputStream is) throws IOException, DocumentException {
 			SAXReader reader=new SAXReader();
-			//reader.setEncoding("UTF-8");
 			BufferedReader br=new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			Document document=reader.read(br);	//TODO
+			Document document=reader.read(br);	
 			System.out.println("---------response---------\n");
 			Element root =document.getRootElement();
 			for(Element e: root.elements()){
